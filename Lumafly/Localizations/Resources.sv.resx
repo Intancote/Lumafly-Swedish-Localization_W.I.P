@@ -170,43 +170,43 @@
     <comment/>
   </data>
   <data name="MWVM_Impl_Error_Fetch_ModLinks_Msgbox_Text" xml:space="preserve">
-    <value>Unable to get list of mods from modlinks, the operation {0}</value>
+    <value>Det gick inte att få listan över moddar från modlinks, operationen {0}</value>
     <comment/>
   </data>
   <data name="MWVM_Impl_Error_Fetch_ModLinks_Msgbox_Title" xml:space="preserve">
-    <value>Error!</value>
+    <value>Fel!</value>
     <comment/>
   </data>
   <data name="MWVM_Impl_Error_Fetch_ModLinks_Timeout" xml:space="preserve">
-    <value>timed out. Please check your internet connection and try again</value>
+    <value>tidsgränsen överskreds. Kontrollera din internetanslutning och försök igen.</value>
     <comment/>
   </data>
   <data name="MWVM_OutOfDate_GetLatest" xml:space="preserve">
-    <value>Get the latest release</value>
+    <value>Hämta den senaste versionen</value>
     <comment/>
   </data>
   <data name="MWVM_OutOfDate_ContinueAnyways" xml:space="preserve">
-    <value>Continue anyways.</value>
+    <value>Fortsätt ändå.</value>
     <comment/>
   </data>
   <data name="MWVM_OutOfDate_Title" xml:space="preserve">
-    <value>Out of date!</value>
+    <value>Utdaterad!</value>
     <comment/>
   </data>
   <data name="MWVM_OutOfDate_Message" xml:space="preserve">
-    <value>Lumafly has a new update available. Please download the newest update (v{0}) to get the latest bug fixes and features.</value>
+    <value>Lumafly har en ny updattering tillgänglig. Snälla ladda ner den nyaste uppdateringen (v{0}) för att få de senaste buggfixarna och funktionerna.</value>
     <comment/>
   </data>
   <data name="MWVM_UpdateDownloadError_Message" xml:space="preserve">
-    <value>Lumafly failed to download update automatically. Lumafly will now open the link to get the latest version</value>
+    <value>Lumafly misslyckades med att ladda ner uppdateringen automatiskt. Lumafly kommer nu öppna länken för att hämta den senaste versionen</value>
     <comment/>
   </data>
   <data name="MWVM_Warning" xml:space="preserve">
-    <value>Warning</value>
+    <value>Varning</value>
     <comment/>
   </data>
   <data name="MWVM_InvalidSavedPath_Message" xml:space="preserve">
-    <value>The saved Hollow Knight path is invalid, please re-select a valid path.</value>
+    <value>Den sparade Hollow Knight sökvägen är ogiltig, vänligen välj om en giltig sökväg.</value>
     <comment/>
   </data>
   <data name="MWVM_Info" xml:space="preserve">
