@@ -226,6 +226,7 @@ namespace Lumafly.ViewModels
 
                         // create a new ModItem for our manually installed mod
                         correspondingMod = ModItem.Empty(
+                            _settings,
                             name: modName,
                             link: url,
                             description: Resources.MVVM_NotInModlinks_Description, 
@@ -423,7 +424,6 @@ namespace Lumafly.ViewModels
         public bool ShouldShowWhatsNewErrorIcon => IsInWhatsNew && (!_modlinksChanges.IsLoaded ?? false);
         public bool IsInOnlineMode => _lumaflyMode == LumaflyMode.Online;
         public bool ShouldShowWhatsNew => IsInOnlineMode &&
-                                          _settings.BaseLink == ModDatabase.DEFAULT_LINKS_BASE &&
                                           !_settings.UseCustomModlinks;
 
         public bool LoadedWhatsNew => IsInWhatsNew && (_modlinksChanges.IsLoaded ?? false);
@@ -1138,7 +1138,7 @@ namespace Lumafly.ViewModels
                     var correspondingMod =
                         _items.FirstOrDefault(x => x.Name == Path.GetFileNameWithoutExtension(file.Name));
                     
-                    var mod = correspondingMod ?? ModItem.Empty(
+                    var mod = correspondingMod ?? ModItem.Empty(_settings,
                         name: Path.GetFileNameWithoutExtension(file.Name), 
                         description: Resources.MVVM_NotInModlinks_Description);
                     

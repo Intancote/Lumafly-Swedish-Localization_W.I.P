@@ -48,7 +48,6 @@ public class ModLinksChanges : IModLinksChanges
     {
         // only do it if its not offline and lumafly is using hk-modding/modlinks as its modlinks provider
         if (lumaflyMode == LumaflyMode.Offline ||
-            settings.BaseLink != ModDatabase.DEFAULT_LINKS_BASE ||
             settings.UseCustomModlinks)
         {
             IsLoaded = false;
@@ -112,7 +111,8 @@ public class ModLinksChanges : IModLinksChanges
         try
         {
             JsonDocument linkJson = JsonDocument.Parse(
-                await hc.GetStringAsync(
+                await hc.GetStringAsync2(
+                    settings,
                     new Uri("https://raw.githubusercontent.com/TheMulhima/Lumafly/static-resources/ModlinksChanges.json"), 
                     new CancellationTokenSource(ModDatabase.TIMEOUT).Token));
 
@@ -148,7 +148,8 @@ public class ModLinksChanges : IModLinksChanges
     {
         try
         {
-            var modNamesString = await hc.GetStringAsync(
+            var modNamesString = await hc.GetStringAsync2(
+                settings,
                 new Uri(link), 
                 new CancellationTokenSource(ModDatabase.TIMEOUT).Token);
 
@@ -180,7 +181,9 @@ public class ModLinksChanges : IModLinksChanges
     {
         try
         {
-            var oldModlinks = ModDatabase.FromString<ModLinks>(await hc.GetStringAsync(lastUsedModlinks, 
+            var oldModlinks = ModDatabase.FromString<ModLinks>(await hc.GetStringAsync2(
+                settings,
+                lastUsedModlinks, 
                 new CancellationTokenSource(ModDatabase.TIMEOUT).Token));
 
             foreach (var mod in currentItems.Where(x => x.State is not NotInModLinksState { ModlinksMod: false }))
@@ -218,7 +221,8 @@ public class ModLinksChanges : IModLinksChanges
     {
         try
         {
-            var modNamesString = await hc.GetStringAsync(
+            var modNamesString = await hc.GetStringAsync2(
+                settings,
                 new Uri(link), 
                 new CancellationTokenSource(ModDatabase.TIMEOUT).Token);
 

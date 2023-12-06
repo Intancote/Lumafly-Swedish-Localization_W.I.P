@@ -20,6 +20,7 @@ namespace Lumafly.Models
     {
         public ModItem
         (
+            ISettings? settings,
             ModState state,
             Version version,
             string[] dependencies,
@@ -36,6 +37,7 @@ namespace Lumafly.Models
         )
         {
             _state = state;
+            _settings = settings;
 
             Sha256 = shasum;
             Version = version;
@@ -90,6 +92,7 @@ namespace Lumafly.Models
 
         [Notify]
         private ModState _state;
+        private ISettings? _settings;
 
         public bool EnabledIsChecked => State switch
         {
@@ -276,6 +279,7 @@ namespace Lumafly.Models
         }
 
         public static ModItem Empty(
+            ISettings? settings = null,
             ModState? state = null,
             Version? version = null,
             string[]? dependencies = null,
@@ -292,6 +296,7 @@ namespace Lumafly.Models
         )
         {
             return new ModItem(
+                settings,
                 state ?? new NotInModLinksState(false),
                 version ?? new Version(0, 0, 0, 0),
                 dependencies ?? Array.Empty<string>(),

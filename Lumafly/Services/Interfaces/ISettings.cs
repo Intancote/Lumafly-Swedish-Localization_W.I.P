@@ -9,7 +9,6 @@ namespace Lumafly.Interfaces
         bool WarnBeforeRemovingDependents { get; set; }
         bool UseCustomModlinks { get; set; }
         string CustomModlinksUri { get; set; }
-        string BaseLink { get; set; }
         SupportedLanguages? PreferredLanguage { get; set; }
         bool LowStorageMode { get; set; }
         string ExtraSpaceTaken { get; }
@@ -21,6 +20,9 @@ namespace Lumafly.Interfaces
         
         string ModsFolder     => Path.Combine(ManagedFolder, "Mods");
         string DisabledFolder => Path.Combine(ModsFolder, "Disabled");
+
+        string GithubMirrorFormat { get; set; }
+        bool UseGithubMirror { get; set; }
 
         void Save();
     }

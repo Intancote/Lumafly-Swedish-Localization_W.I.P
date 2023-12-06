@@ -91,8 +91,8 @@ namespace Lumafly.ViewModels
             await HandleURLSchemeCommand(urlSchemeHandler);
 
             Trace.WriteLine("Checking if up to date...");
-
-            var appUpdater = new AppUpdater();
+            Settings settings = Settings.Load() ?? Settings.Create(await GetSettingsPath());
+            var appUpdater = new AppUpdater(settings);
             
             await appUpdater.CheckUpToDate();
             
@@ -104,7 +104,7 @@ namespace Lumafly.ViewModels
             HandleResetUrlScheme(urlSchemeHandler);
             HandleResetAllGlobalSettingsUrlScheme(urlSchemeHandler);
 
-            Settings settings = Settings.Load() ?? Settings.Create(await GetSettingsPath());
+            
 
             if (settings.PreferredLanguage == null)
             {
@@ -241,10 +241,11 @@ namespace Lumafly.ViewModels
 
             Trace.WriteLine("Creating service collection");
             sc
+              .AddSingleton<ISettings>(_ => settings)
               .AddSingleton<IUrlSchemeHandler>(_ => urlSchemeHandler)
               .AddSingleton(hc)
               .AddSingleton<IAppUpdater>(_ => appUpdater)
-              .AddSingleton<ISettings>(_ => settings)
+              
               .AddSingleton<IGlobalSettingsFinder, GlobalSettingsFinder>()
               .AddSingleton<ICheckValidityOfAssembly, CheckValidityOfAssembly>()
               .AddSingleton<IOnlineTextStorage, PastebinTextStorage>()
@@ -302,7 +303,6 @@ namespace Lumafly.ViewModels
                     UrlSchemeCommands.reset                       => $"Reset Lumafly's persistent settings",
                     UrlSchemeCommands.forceUpdateAll              => $"Reinstall all mods which could help fix issues that happened because mods are not downloaded correctly.",
                     UrlSchemeCommands.customModLinks              => $"Load a custom mod list from: {urlSchemeHandler.Data}",
-                    UrlSchemeCommands.baseLink                    => $"Load Modlinks and APILinks from: {urlSchemeHandler.Data}",
                     UrlSchemeCommands.removeAllModsGlobalSettings => $"Reset all mods' global settings",
                     UrlSchemeCommands.removeGlobalSettings        => $"Remove global settings for the following mods: {GetListOfMods()}",
                     _ => string.Empty
@@ -434,27 +434,6 @@ namespace Lumafly.ViewModels
                     Dispatcher.UIThread.InvokeAsync(async () => await urlSchemeHandler.ShowConfirmation(
                         title: "Use official modlinks url command", 
                         message: "Lumafly will now use official modlinks"));
-                }
-
-                if (urlSchemeHandler.UrlSchemeCommand == UrlSchemeCommands.baseLink)
-                {
-                    bool success = false;
-                    if (string.IsNullOrEmpty(urlSchemeHandler.Data))
-                    {
-                        Trace.TraceError($"{UrlSchemeCommands.baseLink}:{urlSchemeHandler.Data} not found");
-                        success = false;
-                    }
-                    else
-                    {
-                        settings.BaseLink = urlSchemeHandler.Data;
-                        success = true;
-                    }
-
-                    Dispatcher.UIThread.InvokeAsync(async () => await urlSchemeHandler.ShowConfirmation(
-                            title: "Load new baselink from command",
-                            message: success ? $"Got the new base link '{settings.BaseLink}' from command." : "No baselink were provided. Please try again",
-                            success ? Icon.Success : Icon.Warning));
-                    
                 }
                 
                 settings.Save();
